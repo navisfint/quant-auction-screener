@@ -1,0 +1,55 @@
+{
+  "_README": "集合竞价选股参数。金额单位=元，市值单位=元，百分比单位=%。改这里即可，不用动代码。",
+
+  "_g1": "条件1：9:25竞价金额 / 9:20竞价金额 的倍数下限",
+  "min_amount_ratio_925_920": 12.0,
+
+  "_g2": "条件2：9:25竞价价格 >= 9:24竞价价格",
+  "require_price_925_ge_924": true,
+
+  "_g3": "条件3：今日竞价涨跌幅区间（%）+ 9:25竞价金额下限（元）",
+  "auction_chg_min": -1.5,
+  "auction_chg_max": 6.0,
+  "min_auction_amount": 3500000,
+
+  "_g4": "条件4：昨日换手率区间（%）+ 昨日收盘价需在均线上方",
+  "min_prev_turnover": 3.5,
+  "max_prev_turnover": 20.0,
+  "ma_period": 60,
+  "include_prev_in_ma": true,
+
+  "_g5": "条件5：前N日有过涨停 + 股价上限 + 市值上限 + 板块/ST",
+  "zt_lookback_days": 30,
+  "zt_threshold_pct": 9.8,
+  "include_prev_day_in_zt": true,
+  "max_price": 50.0,
+  "max_market_cap": 12000000000,
+  "market_cap_field": "float_mv",
+  "main_board_only": true,
+  "exclude_st": true,
+
+  "_g6": "条件6：上上个交易日涨跌幅上限（%）+ 上上日成交额/昨日成交额 下限",
+  "t2_chg_max": 6.0,
+  "min_t2_over_t1_amount_ratio": 1.10,
+
+  "_engine": "抓取与引擎参数",
+  "page_size": 100,
+  "page_sleep": 0.5,
+  "kline_limit": 130,
+  "max_candidates": 500,
+  "http_retries": 5,
+  "http_timeout": 20,
+
+  "_prefilter": "预筛放宽系数：静态项(股价/市值)按 T-1 收盘值判定时放大这么多倍，次日用竞价实时价精确复核。调小会漏股。",
+  "prefilter_relax": 1.25,
+
+  "_collect": "采样参数：各窗口内每隔多少秒抓一轮候选池快照。0920 是条件1(9:20累计额)唯一的机会，必须最密；0925 是撮合后的静止窗(9:25-9:29:50)，快照不动，不用密。",
+  "collect_gap_0920": 1.5,
+  "collect_gap_0924": 2.0,
+  "collect_gap_0925": 4.0,
+
+  "_throttle": "★东财风控参数，不要调大。detail_retries=单只明细最多请求几次；detail_max_consec_fail=连续几只拿不到就中止整轮；em_min_interval=两次东财请求的最小间隔(秒)。调大会被东财封IP(轻则几小时，重则20+小时)。",
+  "detail_retries": 3,
+  "detail_max_consec_fail": 6,
+  "em_min_interval": 2.0
+}
